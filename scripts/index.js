@@ -14,7 +14,11 @@ JOIN awards on actors.id = awards.winner_id;`);
 
   $("#execute-button").on("click", function(event) {
     event.preventDefault();
-    const sql = editors[1].getValue();
+    let sql = editors[1].getValue();
+    if (containsRightJoin(sql)) {
+      sql = rightToLeft(sql);
+    }
+    
     const output = db.exec(sql);
     console.log(output);
 

@@ -1,0 +1,25 @@
+{
+  "name": "thesqljoins",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/meech-ward/The-SQL-Joins.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/meech-ward/The-SQL-Joins/issues"
+  },
+  "homepage": "https://github.com/meech-ward/The-SQL-Joins#readme",
+  "dependencies": {
+    "mocha": "^6.2.1"
+  }
+}
