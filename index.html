@@ -14,12 +14,26 @@
 
   <h1>The SQL Joins</h1>
 
-  <div class="editor"></div>
-  <div class="editor"></div>
+  
+  <article class="sql-editor-component" data-editor="schema">
+    <div class="editor"></div>
+    <a class="execute-button btn waves-light" href="#">Execute!</a>
+    <section class="output"></section>
+  </article>
 
-  <a id="execute-button" class="btn waves-light" href="#">Execute!</a>
+  <article class="sql-editor-component" data-editor="seeds">
+    <div class="editor"></div>
+    <a class="execute-button btn waves-light" href="#">Execute!</a>
+    <section class="output"></section>
+  </article>
 
-  <div id="output"></div>
+  <article class="sql-editor-component" data-editor="joins">
+    <div class="editor"></div>
+    <a class="execute-button btn waves-light" href="#">Execute!</a>
+    <section class="output"></section>
+  </article>
+
+  
   
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.6/ace.js"></script>
