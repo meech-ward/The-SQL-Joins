@@ -25,18 +25,26 @@ function tableFromOutput(output) {
     `;
 }
 
-function executeButtonClicked(event) {
-  event.preventDefault();
-  const $editorComponent = $(event.target).closest('.sql-editor-component');
+function executeEditorScript($editorComponent) {
   const editorName = $editorComponent.data('editor');
 
   let sql = editors[editorName].getValue();
+
+  if (containsFullJoin(sql)) {
+    sql = fullToLeft(sql);
+  }
 
   if (containsRightJoin(sql)) {
     sql = rightToLeft(sql);
   }
   
-  const output = db.exec(sql);
+  let output;
+  try {
+    output = db.exec(sql);
+  } catch (e) {
+    alert("There was an error with your query. Check the console for more details");
+    console.log(e)
+  }
   console.log(output);
 
   let html;
@@ -52,6 +60,12 @@ function executeButtonClicked(event) {
     .append(html);
 }
 
+function executeButtonClicked(event) {
+  event.preventDefault();
+  const $editorComponent = $(event.target).closest('.sql-editor-component');
+  executeEditorScript($editorComponent);
+}
+
 $(async () => {
   const SQL = await initSqlJs({ locateFile: filename => `/sqljs/${filename}` });
   window.db = new SQL.Database();
@@ -61,9 +75,19 @@ $(async () => {
   editors['schema'].setValue(schema);
   editors['seeds'].setValue(seeds);
 
+  const executeNow = ['schema', 'seeds']; 
+  $('.sql-editor-component').each((index, component) => {
+    const $component = $(component);
+    if (executeNow.includes($component.data('editor'))) {
+      executeEditorScript($component);
+    }
+  });
+  
+
   editors['joins'].setValue(`SELECT year, title, full_name 
 FROM actors 
-JOIN awards on actors.id = awards.winner_id
+JOIN awards 
+ON actors.id = awards.winner_id
 ORDER BY year DESC;`);
 
   $(".execute-button").on("click", executeButtonClicked);
