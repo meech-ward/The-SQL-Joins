@@ -13,5 +13,10 @@ function containsRightJoin(query) {
   return Boolean(query.match(/right[\s\n]+(outer )?[\s\n]*join/i));
 }
 
+function containsFullJoin(query) {
+  return Boolean(query.match(/full[\s\n]+(outer )?[\s\n]*join/i));
+}
+
 global.rightToLeft = rightToLeft;
 global.containsRightJoin = containsRightJoin;
+global.containsFullJoin = containsFullJoin;
