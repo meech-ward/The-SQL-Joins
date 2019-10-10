@@ -28,12 +28,26 @@ function tableFromOutput(output) {
 function executeEditorScript($editorComponent) {
   const editorName = $editorComponent.data('editor');
 
+  let html = '';
+
   let sql = editors[editorName].getValue();
+
+  if (containsJoin(sql)) {
+    if (containsLeftJoin(sql)) {
+      html += `<h4>LEFT OUTER JOIN</h4>`;
+    } else if (containsRightJoin(sql)) {
+      html += `<h4>RIGHT OUTER JOIN</h4>`;
+    } else if (containsFullJoin(sql)) {
+      html += `<h4>FULL OUTER JOIN</h4>`;
+    } else {
+      html += `<h4>INNER JOIN</h4>`;
+    }
+  }
+  
 
   if (containsFullJoin(sql)) {
     sql = fullToLeft(sql);
   }
-
   if (containsRightJoin(sql)) {
     sql = rightToLeft(sql);
   }
@@ -47,12 +61,11 @@ function executeEditorScript($editorComponent) {
   }
   console.log(output);
 
-  let html;
 
   if (!output[0]) {
-    html = '<p>👍</p>';
+    html += '<p>👍</p>';
   } else {
-    html = `<h5>Total Rows: ${output[0].values.length}</h5>` + tableFromOutput(output);
+    html += `<h5>Total Rows: ${output[0].values.length}</h5>` + tableFromOutput(output);
   }
 
   $editorComponent.find(".output")

@@ -27,9 +27,13 @@ function containsFullJoin(query) {
 function containsLeftJoin(query) {
   return Boolean(query.match(/left[\s\n]+(outer )?[\s\n]*join/i));
 }
+function containsJoin(query) {
+  return Boolean(query.match(/(inner )?[\s\n]*join/i));
+}
 
 global.rightToLeft = rightToLeft;
 global.containsRightJoin = containsRightJoin;
 global.containsFullJoin = containsFullJoin;
 global.fullToLeft = fullToLeft;
 global.containsLeftJoin = containsLeftJoin;
+global.containsJoin = containsJoin;
