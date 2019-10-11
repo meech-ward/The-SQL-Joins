@@ -25,8 +25,8 @@ $(() => {
     editor.setTheme("ace/theme/twilight");
 
     const key = `editor-${index}-code`;
-    const code = localStorage.getItem(key);
-    editor.setValue(code || "// Write your code here");
+    // const code = localStorage.getItem(key);
+    // editor.setValue(code || "// Write your code here");
 
     editor.session.on('change', function(delta) {
       localStorage.setItem(key, editor.getValue());

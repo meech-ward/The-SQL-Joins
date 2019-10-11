@@ -1,3 +1,30 @@
+const joins = {
+  inner: 
+`SELECT year, title, full_name 
+FROM actors 
+INNER JOIN awards 
+ON actors.id = awards.winner_id
+ORDER BY year DESC;`
+  ,left: 
+`SELECT year, title, full_name 
+FROM actors 
+LEFT OUTER JOIN awards 
+ON actors.id = awards.winner_id
+ORDER BY year DESC;`
+  ,right: 
+`SELECT year, title, full_name 
+FROM actors 
+RIGHT OUTER JOIN awards 
+ON actors.id = awards.winner_id
+ORDER BY year DESC;`
+  ,full: 
+`SELECT year, title, full_name 
+FROM actors 
+FULL OUTER JOIN awards 
+ON actors.id = awards.winner_id
+ORDER BY year DESC;`
+}
+
 const getSchemeAndSeeds = () => Promise.all([
   $.get('/sql/schema.sql'),
   $.get('/sql/seeds.sql')
@@ -95,13 +122,40 @@ $(async () => {
       executeEditorScript($component);
     }
   });
+
+
   
 
-  editors['joins'].setValue(`SELECT year, title, full_name 
-FROM actors 
-JOIN awards 
-ON actors.id = awards.winner_id
-ORDER BY year DESC;`);
-
   $(".execute-button").on("click", executeButtonClicked);
+
+
+  $("#inner-join-button").on("click", function(event) {
+    event.preventDefault();
+
+    editors['joins'].setValue(joins.inner);
+
+    executeButtonClicked(event);
+  })
+  $("#left-join-button").on("click", function(event) {
+    event.preventDefault();
+    
+    editors['joins'].setValue(joins.left);
+    
+    executeButtonClicked(event);
+  })
+  $("#right-join-button").on("click", function(event) {
+    event.preventDefault();
+
+    editors['joins'].setValue(joins.right);
+    
+    executeButtonClicked(event);
+  })
+  $("#outer-join-button").on("click", function(event) {
+    event.preventDefault();
+
+    editors['joins'].setValue(joins.full);
+    
+    executeButtonClicked(event);
+  })
 });
+      
