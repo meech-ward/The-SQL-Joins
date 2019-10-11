@@ -61,12 +61,12 @@ function executeEditorScript($editorComponent) {
     const tableNames = db.exec("SELECT name as tables FROM sqlite_master WHERE type ='table' AND name NOT LIKE 'sqlite_%';");
     let subSQL = `select `;
     tableNames[0].values.forEach((value, index) => {
-      subSQL += ` count(DISTINCT ${value[0]}.id) as 'Number Of Rows in ${value[0]}' ${index < tableNames[0].values.length-1 ? ', ': ''}`
+      subSQL += ` ( select count(${value[0]}.id) from ${value[0]} ) as 'Number Of Rows in ${value[0]}' ${index < tableNames[0].values.length-1 ? ', ': ''}`
     });
-    subSQL += 'from';
-    tableNames[0].values.forEach((value, index) => {
-      subSQL += ` ${value[0]} ${index < tableNames[0].values.length-1 ? ', ': ''}`;
-    });
+    // subSQL += 'from';
+    // tableNames[0].values.forEach((value, index) => {
+    //   subSQL += ` ${value[0]} ${index < tableNames[0].values.length-1 ? ', ': ''}`;
+    // });
     extras.seeds = subSQL;
   }
 
