@@ -46,6 +46,28 @@ describe("fullToLeft", function() {
     assert.equal(normalizeText(fullToLeft(query1)), normalizeText(expectedResult1));
   });
 
+  it("should convert a full join with where to a left join", function() {
+    const query1 = `
+    select * from table1 
+    full join table2 
+    on something = table2.something_2
+    where thing in (1,2,3)
+    order by things;
+    `;
+    const expectedResult1 = `
+    select * from table1 
+    left join table2 
+    on something = table2.something_2
+    union 
+    select * from table2 
+    left join table1 
+    on something = table2.something_2
+    where thing in (1,2,3)
+    order by things;
+    `;
+    assert.equal(normalizeText(fullToLeft(query1)), normalizeText(expectedResult1));
+  });
+
   xit("should convert a full outer join to a left outer join", function() {
     const query = "select * from table1 right outer join table2 on something";
     const expectedResult = "select * from table2 left join table1 on something";
