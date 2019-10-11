@@ -82,7 +82,7 @@ function executeEditorScript($editorComponent) {
   console.log(output);
 
   if (editorName !== 'schema' && editorName !== 'seeds') {
-    html += `<h5>Total Rows: ${output[0].values.length-1}</h5>`;
+    html += `<h5>Total Rows: ${output[0].values.length}</h5>`;
   }
 
   if (!output[0]) {
