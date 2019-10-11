@@ -78,8 +78,28 @@ function executeEditorScript($editorComponent) {
   if (containsRightJoin(sql)) {
     sql = rightToLeft(sql);
   }
+
+  const extras = {
+    'schema': "SELECT name as tables FROM sqlite_master WHERE type ='table' AND name NOT LIKE 'sqlite_%';",
+    'seeds': ""
+  };
   
+  if (editorName === 'seeds') {
+    const tableNames = db.exec("SELECT name as tables FROM sqlite_master WHERE type ='table' AND name NOT LIKE 'sqlite_%';");
+    let subSQL = `select `;
+    tableNames[0].values.forEach((value, index) => {
+      subSQL += ` ( select count(${value[0]}.id) from ${value[0]} ) as 'Number Of Rows in ${value[0]}' ${index < tableNames[0].values.length-1 ? ', ': ''}`
+    });
+    // subSQL += 'from';
+    // tableNames[0].values.forEach((value, index) => {
+    //   subSQL += ` ${value[0]} ${index < tableNames[0].values.length-1 ? ', ': ''}`;
+    // });
+    extras.seeds = subSQL;
+  }
+
   let output;
+  sql += ";" + (extras[editorName] || '');
+
   try {
     output = db.exec(sql);
   } catch (e) {
@@ -88,11 +108,14 @@ function executeEditorScript($editorComponent) {
   }
   console.log(output);
 
+  if (editorName !== 'schema' && editorName !== 'seeds') {
+    html += `<h5>Total Rows: ${output[0].values.length}</h5>`;
+  }
 
   if (!output[0]) {
     html += '<p>👍</p>';
   } else {
-    html += `<h5>Total Rows: ${output[0].values.length}</h5>` + tableFromOutput(output);
+    html += tableFromOutput(output);
   }
 
   $editorComponent.find(".output")

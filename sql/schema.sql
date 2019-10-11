@@ -10,5 +10,5 @@ CREATE TABLE awards (
 
 CREATE TABLE actors (
   id INTEGER PRIMARY KEY,
-  full_name VARCHAR(255) unique
+  full_name VARCHAR(255)
 );
