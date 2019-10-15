@@ -3,7 +3,7 @@ body {
 }
 .editor {
   width: 100%;
-  height: 300px;
+  height: 210px;
   margin: 10px auto;
 }
 .sql-editor-component {
@@ -14,4 +14,21 @@ body {
   display: flex;
   justify-content: space-between;
   width: 100%;
+}
+
+.written-content {
+  max-width: 800px;
+  margin: 40px auto;
+  background-color: #efe5d5;/*peachpuff;*/
+  box-shadow: 10px 10px 5px grey;
+  border-radius: 20px;
+  padding: 20px;
+}
+
+.output {
+  max-height: 300px;
+  overflow-y: scroll;
+  border: 1px solid black;
+  margin-top: 10px;
+  min-height: 20px;
 }

@@ -138,6 +138,16 @@ $(async () => {
   editors['schema'].setValue(schema);
   editors['seeds'].setValue(seeds);
 
+  editors['query-1'].setValue(`SELECT year, title, winner_id 
+FROM awards 
+ORDER BY year DESC;`);
+
+editors['query-2'].setValue(`SELECT year, title, full_name 
+FROM actors 
+JOIN awards 
+ON actors.id = winner_id
+ORDER BY year DESC;`);
+
   const executeNow = ['schema', 'seeds']; 
   $('.sql-editor-component').each((index, component) => {
     const $component = $(component);

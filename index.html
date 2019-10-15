@@ -14,6 +14,16 @@
 
   <h1>The SQL Joins</h1>
 
+  <main>
+
+    <div class="written-content">
+    <p>
+      When we're using relational databases correctly, we're going to end up with a lot of tables in our database. That's great for organizing our data, but how do we query that data when it's spread across multiple tables? Well, the answer is JOIN.
+    </p>
+    <p>
+      We're going to work with a small database that contains just two tables pulled from the <a href="http://awardsdatabase.oscars.org/">ACADEMY AWARDS® DATABASE</a>. An actors table and an awards table. The following SQL contains the schema for the database and some seed data.
+    </p>
+    </div>
   
   <article class="sql-editor-component" data-editor="schema">
     <h3>Schema</h3>
@@ -29,7 +39,51 @@
     <section class="output"></section>
   </article>
 
+  <div class="written-content">
+  <p>If we wanted to get all of the awards with the id of the actor that won the award, that would be a simple query:</p>
+  </div>
+
+  <article class="sql-editor-component" data-editor="query-1">
+    <!-- <h3>Seeds</h3> -->
+    <div class="editor"></div>
+    <a class="execute-button btn waves-light" href="#">Execute!</a>
+    <section class="output"></section>
+  </article>
+
+  <div class="written-content">
+    <p>But instead of getting the winner's id, we want the winner's name. We want to<br><code>SELECT year, title, full_name</code></p>
+    <p>Now we're dealing with data from more than one table. We've got the <code>year</code> and <code>title</code> from the <code>awards</code> table, and the <code>full_name</code> from the <code>actors</code> table. We also have a relationship, the <code>winner_id</code> is an id of one of the <code>actors</code>.</p>
+    <p>So we need to use this information to <code>JOIN</code> the tables together so that we can get the data we need.</p>
+  
+    <p>Note that when there is a shared column name between tables, we <strong>must</strong> specify which table the column belongs to, hence the <code>actors.id</code></p>
+  </div>
+
+  <article class="sql-editor-component" data-editor="query-2">
+      <!-- <h3>Seeds</h3> -->
+      <div class="editor"></div>
+      <a class="execute-button btn waves-light" href="#">Execute!</a>
+      <section class="output"></section>
+    </article>
+
+    <div class="written-content">
+        <p>In order to get data from multiple tables, we can <code>JOIN</code> the tables together. When we <code>JOIN</code> tables, we must specify how the tables are related to eachother using <code>ON</code>.</p>
+        <p>This kind of JOIN is called an <code>INNER JOIN</code>. When we just write <code>JOIN</code> like this, it's just short hand for <code>INNER JOIN</code>. Try writing <code>INNER </code> before the word <code>JOIN</code> and re running the query.</p>
+        <p>
+          Did you notice that the first query without the <code>JOIN</code> returned 12 results, but the second query with the <code>INNER JOIN</code> only returned 8 results? Why is that?
+        </p>
+          <p>
+            It's because an <code>INNER JOIN</code> will only return values where there's a match between the tables. 
+            In the first query, we selected all of the awards, even if there wasn't a winner (the winner_id was null). 
+            Since the table's are being <code>JOIN</code>ed when <code>actors.id = winner_id</code>, we won't get any results when the <code>winner_id</code> is null.
+          </p>
+          <p>
+            But what if we want <strong>all</strong> of the awards, even when there's no winner? Then we'll have to use another <code>JOIN</code>!
+          </p>
+      </div>
+
+  
   <article class="sql-editor-component" data-editor="joins">
+    <h3>Joins</h3>
     <div class="join-tabs-container">
         <a id="inner-join-button" class="btn waves-light" href="#">INNER JOIN</a>
         <a id="left-join-button" class="btn waves-light" href="#">LEFT OUTER JOIN</a>
@@ -48,8 +102,18 @@
     <section class="output"></section>
   </article>
 
-  
-  
+  <div class="written-content">
+    <p>
+        <code>INNER</code> returns rows from both tables where there's a match between the tables. 
+    </p>
+      <p>
+        <code>LEFT</code> and <code>RIGHT</code> return all rows from the left or right table respectively, and only the matched results from the other table, or NULL if there is no match.
+      </p>
+      <p>
+        <code>FULL</code> returns all rows from both tables.
+      </p>
+  </main>
+
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.6/ace.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
