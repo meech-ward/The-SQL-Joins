@@ -25,6 +25,20 @@ ON actors.id = awards.winner_id
 ORDER BY year DESC;`
 }
 
+window.resizeObserver = new ResizeObserver(function(entries) {
+  for (let entry of entries) {
+    if (entry.target.style.height) {
+      $(entry.target).css("max-height", "inherit");
+      resizeObserver.unobserve(entry.target);
+    }
+    // if (entry.contentBoxSize) {
+    //   console.log(entry.contentBoxSize.inlineSize);
+    // } else {
+    //   console.log(entry.contentRect.width);
+    // }
+  }
+})
+
 const getSchemeAndSeeds = () => Promise.all([
   $.get('/sql/schema.sql'),
   $.get('/sql/seeds.sql')
@@ -118,9 +132,15 @@ function executeEditorScript($editorComponent) {
     html += tableFromOutput(output);
   }
 
-  $editorComponent.find(".output")
-    .empty()
-    .append(html);
+  const $output = $editorComponent.find(".output")
+  $output.empty().append(html)
+  $output.css('max-height' ,'300px');
+  if ($output[0].style.height) {
+    $output[0].style.height = null;
+    $output[0].style.width = null;
+  }
+  
+  resizeObserver.observe($output[0]);
 }
 
 function executeButtonClicked(event) {
@@ -190,5 +210,7 @@ ORDER BY year DESC;`);
     
     executeButtonClicked(event);
   })
+
+  
 });
       
